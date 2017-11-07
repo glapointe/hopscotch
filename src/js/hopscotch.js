@@ -82,6 +82,41 @@ winLoadHandler = function() {
  * @private
  */
 utils = {
+  getScrollParent: function(element, includeHidden) {
+    var position = this.getCss(element, 'position'),
+        excludeStaticParent = position === 'absolute',
+        overflowRegex = includeHidden ? /(auto|scroll|hidden)/ : /(auto|scroll)/;
+    var scrollParent = null;
+  
+    var parents = this.getParents(element);
+    for (var i = 0; i < parents.length; i++) {
+      var parent = parents[i];
+      if (excludeStaticParent && this.getCss(parent, 'position') === 'static') {
+        continue;
+      }
+      if (overflowRegex.test(this.getCss(parent, 'overflow') + this.getCss(parent, 'overflow-y' + this.getCss(parent, 'overflow-x')))) {
+        scrollParent = parent;
+        break;
+      }
+    }
+    return (position === 'fixed' || scrollParent == null) ? document : scrollParent; 
+  },
+  getCss: function(element, name) {
+    var styles = window.getComputedStyle(element, null);
+    return styles[name];
+  },
+  getParents: function( elem ) {
+    var matched = [],
+        cur = elem.parentNode;
+  
+    while ( cur && cur.nodeType !== 9) {
+      if ( cur.nodeType === 1 ) {
+        matched.push( cur );
+      }
+      cur = cur.parentNode;
+    }
+    return matched;
+  },  
   /**
    * addClass
    * ========
@@ -1373,6 +1408,19 @@ Hopscotch = function(initOptions) {
     self.nextStep();
   },
 
+  adjustWindowScroll = function(cb) {
+    var targetEl = utils.getStepTarget(getCurrStep());
+    var scrollableParent = utils.getScrollParent(targetEl, false);
+    if (scrollableParent != null && scrollableParent !== document) {
+      targetEl.scrollIntoView();
+      setTimeout(function() {
+        self.refreshBubblePosition();
+        if (cb) { cb(); }
+      }, 250);
+    } else {
+      adjustWindowScrollInternal(cb);  
+    }
+  },
   /**
    * adjustWindowScroll
    *
@@ -1383,7 +1431,7 @@ Hopscotch = function(initOptions) {
    * @private
    * @param {Function} cb Callback to invoke after done scrolling.
    */
-  adjustWindowScroll = function(cb) {
+  adjustWindowScrollInternal = function(cb) {
     var bubble         = getBubble(),
 
         // Calculate the bubble element top and bottom position

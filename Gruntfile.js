@@ -284,7 +284,7 @@ module.exports = function(grunt) {
         dest: 'tmp/js/hopscotch_amd_tmp.js',
         options: {
           format: 'amd',
-          moduleId: HOPSCOTCH
+          amd: { id: HOPSCOTCH } //moduleId: HOPSCOTCH
         },
         src: 'src/js/hopscotch.js'
       },
@@ -377,7 +377,7 @@ module.exports = function(grunt) {
   grunt.registerTask(
     'buildRelease',
     'Build hopscotch for release (update files in dist directory and create tar.gz and zip archives of the release)',
-    ['test', 'compress']
+    ['build', 'compress']
   );
 
   grunt.registerTask(
