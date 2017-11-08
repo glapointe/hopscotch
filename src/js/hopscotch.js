@@ -70,7 +70,18 @@ winLoadHandler = function() {
     winHopscotch.startTour();
   }
 };
+var onScrollCooldown = false;
+var onScrollHandler = function() {
+    if (onScrollCooldown) {
+      return;
+    }
 
+    onScrollCooldown = true;
+    setTimeout(function() {
+      winHopscotch.refreshBubblePosition();
+      onScrollCooldown = false;
+    }, 100);
+};
 /**
  * utils
  * =====
@@ -87,16 +98,25 @@ utils = {
         excludeStaticParent = position === 'absolute',
         overflowRegex = includeHidden ? /(auto|scroll|hidden)/ : /(auto|scroll)/;
     var scrollParent = null;
+    
   
     var parents = this.getParents(element);
+    for (var k = 0; k < parents.length; k++) {
+      var el = parents[k];
+      utils.removeEvtListener(el, 'scroll', onScrollHandler);
+      utils.addEvtListener(el, 'scroll', onScrollHandler);
+    }
     for (var i = 0; i < parents.length; i++) {
       var parent = parents[i];
       if (excludeStaticParent && this.getCss(parent, 'position') === 'static') {
         continue;
       }
       if (overflowRegex.test(this.getCss(parent, 'overflow') + this.getCss(parent, 'overflow-y' + this.getCss(parent, 'overflow-x')))) {
-        scrollParent = parent;
-        break;
+        var height = parent.getBoundingClientRect().height;
+        if (height < parent.scrollHeight) {
+          scrollParent = parent;
+          break;
+        }
       }
     }
     return (position === 'fixed' || scrollParent == null) ? document : scrollParent; 
@@ -1412,11 +1432,19 @@ Hopscotch = function(initOptions) {
     var targetEl = utils.getStepTarget(getCurrStep());
     var scrollableParent = utils.getScrollParent(targetEl, false);
     if (scrollableParent != null && scrollableParent !== document) {
-      targetEl.scrollIntoView();
-      setTimeout(function() {
-        self.refreshBubblePosition();
-        if (cb) { cb(); }
-      }, 250);
+      targetEl.scrollIntoView({behavior:'smooth'});
+      var elTop = targetEl.getBoundingClientRect().top;
+      var interval = setInterval(function() {
+        // Don't need this now as it's being handled by the onscroll event
+        //self.refreshBubblePosition();
+        var newElTop = targetEl.getBoundingClientRect().top;
+        if (newElTop === elTop) {
+          clearInterval(interval);
+          if (cb) { cb(); }
+        }
+        elTop = newElTop;
+        
+      }, 100);
     } else {
       adjustWindowScrollInternal(cb);  
     }

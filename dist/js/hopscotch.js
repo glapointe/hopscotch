@@ -97,7 +97,18 @@
       winHopscotch.startTour();
     }
   };
+  var onScrollCooldown = false;
+  var onScrollHandler = function onScrollHandler() {
+    if (onScrollCooldown) {
+      return;
+    }
 
+    onScrollCooldown = true;
+    setTimeout(function () {
+      winHopscotch.refreshBubblePosition();
+      onScrollCooldown = false;
+    }, 100);
+  };
   /**
    * utils
    * =====
@@ -109,6 +120,49 @@
    * @private
    */
   utils = {
+    getScrollParent: function getScrollParent(element, includeHidden) {
+      var position = this.getCss(element, 'position'),
+          excludeStaticParent = position === 'absolute',
+          overflowRegex = includeHidden ? /(auto|scroll|hidden)/ : /(auto|scroll)/;
+      var scrollParent = null;
+
+      var parents = this.getParents(element);
+      for (var k = 0; k < parents.length; k++) {
+        var el = parents[k];
+        utils.removeEvtListener(el, 'scroll', onScrollHandler);
+        utils.addEvtListener(el, 'scroll', onScrollHandler);
+      }
+      for (var i = 0; i < parents.length; i++) {
+        var parent = parents[i];
+        if (excludeStaticParent && this.getCss(parent, 'position') === 'static') {
+          continue;
+        }
+        if (overflowRegex.test(this.getCss(parent, 'overflow') + this.getCss(parent, 'overflow-y' + this.getCss(parent, 'overflow-x')))) {
+          var height = parent.getBoundingClientRect().height;
+          if (height < parent.scrollHeight) {
+            scrollParent = parent;
+            break;
+          }
+        }
+      }
+      return position === 'fixed' || scrollParent == null ? document : scrollParent;
+    },
+    getCss: function getCss(element, name) {
+      var styles = window.getComputedStyle(element, null);
+      return styles[name];
+    },
+    getParents: function getParents(elem) {
+      var matched = [],
+          cur = elem.parentNode;
+
+      while (cur && cur.nodeType !== 9) {
+        if (cur.nodeType === 1) {
+          matched.push(cur);
+        }
+        cur = cur.parentNode;
+      }
+      return matched;
+    },
     /**
      * addClass
      * ========
@@ -1383,7 +1437,28 @@
     targetClickNextFn = function targetClickNextFn() {
       self.nextStep();
     },
-
+        adjustWindowScroll = function adjustWindowScroll(cb) {
+      var targetEl = utils.getStepTarget(getCurrStep());
+      var scrollableParent = utils.getScrollParent(targetEl, false);
+      if (scrollableParent != null && scrollableParent !== document) {
+        targetEl.scrollIntoView({ behavior: 'smooth' });
+        var elTop = targetEl.getBoundingClientRect().top;
+        var interval = setInterval(function () {
+          // Don't need this now as it's being handled by the onscroll event
+          //self.refreshBubblePosition();
+          var newElTop = targetEl.getBoundingClientRect().top;
+          if (newElTop === elTop) {
+            clearInterval(interval);
+            if (cb) {
+              cb();
+            }
+          }
+          elTop = newElTop;
+        }, 100);
+      } else {
+        adjustWindowScrollInternal(cb);
+      }
+    },
 
     /**
      * adjustWindowScroll
@@ -1395,7 +1470,7 @@
      * @private
      * @param {Function} cb Callback to invoke after done scrolling.
      */
-    adjustWindowScroll = function adjustWindowScroll(cb) {
+    adjustWindowScrollInternal = function adjustWindowScrollInternal(cb) {
       var bubble = getBubble(),
 
 
@@ -2446,60 +2521,60 @@ function print() { __p += __j.call(arguments, '') }
     return str;
   }
 ;
-__p += '\n';
+__p += '\r\n';
 
 var i18n = data.i18n;
 var buttons = data.buttons;
 var step = data.step;
 var tour = data.tour;
 ;
-__p += '\n<div class="hopscotch-bubble-container" style="width: ' +
+__p += '\r\n<div class="hopscotch-bubble-container" style="width: ' +
 ((__t = ( step.width )) == null ? '' : __t) +
 'px; padding: ' +
 ((__t = ( step.padding )) == null ? '' : __t) +
-'px;">\n  ';
+'px;">\r\n  ';
  if(tour.isTour){ ;
 __p += '<span class="hopscotch-bubble-number">' +
 ((__t = ( i18n.stepNum )) == null ? '' : __t) +
 '</span>';
  } ;
-__p += '\n  <div class="hopscotch-bubble-content">\n    ';
+__p += '\r\n  <div class="hopscotch-bubble-content">\r\n    ';
  if(step.title !== ''){ ;
 __p += '<h3 class="hopscotch-title">' +
 ((__t = ( optEscape(step.title, tour.unsafe) )) == null ? '' : __t) +
 '</h3>';
  } ;
-__p += '\n    ';
+__p += '\r\n    ';
  if(step.content  !== ''){ ;
 __p += '<div class="hopscotch-content">' +
 ((__t = ( optEscape(step.content, tour.unsafe) )) == null ? '' : __t) +
 '</div>';
  } ;
-__p += '\n  </div>\n  <div class="hopscotch-actions">\n    ';
+__p += '\r\n  </div>\r\n  <div class="hopscotch-actions">\r\n    ';
  if(buttons.showPrev){ ;
 __p += '<button class="hopscotch-nav-button prev hopscotch-prev">' +
 ((__t = ( i18n.prevBtn )) == null ? '' : __t) +
 '</button>';
  } ;
-__p += '\n    ';
+__p += '\r\n    ';
  if(buttons.showCTA){ ;
 __p += '<button class="hopscotch-nav-button next hopscotch-cta">' +
 ((__t = ( buttons.ctaLabel )) == null ? '' : __t) +
 '</button>';
  } ;
-__p += '\n    ';
+__p += '\r\n    ';
  if(buttons.showNext){ ;
 __p += '<button class="hopscotch-nav-button next hopscotch-next">' +
 ((__t = ( i18n.nextBtn )) == null ? '' : __t) +
 '</button>';
  } ;
-__p += '\n  </div>\n  ';
+__p += '\r\n  </div>\r\n  ';
  if(buttons.showClose){ ;
 __p += '<button class="hopscotch-bubble-close hopscotch-close">' +
 ((__t = ( i18n.closeTooltip )) == null ? '' : __t) +
 '</button>';
  } ;
-__p += '\n</div>\n<div class="hopscotch-bubble-arrow-container hopscotch-arrow">\n  <div class="hopscotch-bubble-arrow-border"></div>\n  <div class="hopscotch-bubble-arrow"></div>\n</div>\n';
+__p += '\r\n</div>\r\n<div class="hopscotch-bubble-arrow-container hopscotch-arrow">\r\n  <div class="hopscotch-bubble-arrow-border"></div>\r\n  <div class="hopscotch-bubble-arrow"></div>\r\n</div>\r\n';
 return __p
 };
   }).call(winHopscotch);
