@@ -753,6 +753,12 @@
       // ACCOUNT FOR FIXED POSITION ELEMENTS
       el.style.position = step.fixedElement ? 'fixed' : 'absolute';
 
+      if ((step.placement === 'left' || step.placement === 'right') && step.yOffset === 0 && step.arrowOffset === 0) {
+        top -= 25; // Arrow height is 17 plus about a small pad above it.
+      } else if ((step.placement === 'top' || step.placement === 'bottom') && step.xOffset === 0 && step.arrowOffset === 0) {
+        left -= 29;
+      }
+
       el.style.top = top + 'px';
       el.style.left = left + 'px';
     },
