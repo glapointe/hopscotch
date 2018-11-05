@@ -111,7 +111,7 @@ utils = {
       if (excludeStaticParent && this.getCss(parent, 'position') === 'static') {
         continue;
       }
-      if (overflowRegex.test(this.getCss(parent, 'overflow') + this.getCss(parent, 'overflow-y' + this.getCss(parent, 'overflow-x')))) {
+      if (overflowRegex.test(this.getCss(parent, 'overflow') + this.getCss(parent, 'overflow-y') + this.getCss(parent, 'overflow-x'))) {
         var height = parent.getBoundingClientRect().height;
         if (height < parent.scrollHeight) {
           scrollParent = parent;
@@ -594,7 +594,9 @@ utils.addEvtListener(window, 'load', winLoadHandler);
 
 callbacks = {
   next:  [],
+  beforenext: [],
   prev:  [],
+  beforeprev: [],
   start: [],
   end:   [],
   show:  [],
@@ -656,6 +658,7 @@ HopscotchBubble.prototype = {
         arrowEl      = this.arrowEl,
         arrowPos     = step.isRtl ? 'right' : 'left';
 
+    if (targetEl === null) { return; }
     utils.flipPlacement(step);
     utils.normalizePlacement(step);
 
@@ -726,6 +729,13 @@ HopscotchBubble.prototype = {
     }
     else {
       left += utils.getPixelValue(step.xOffset);
+
+      // BEGIN - ADDED BY GARY LAPOINTE 11/17/2017:
+      if (utils.getPixelValue(step.xOffset) === 0 && (step.placement === 'top' || step.placement === 'bottom')) {
+        left -= this.opt.arrowWidth;
+      }
+      // END - ADDED BY GARY LAPOINTE 11/17/2017
+    
     }
     // VERTICAL OFFSET
     if (step.yOffset === 'center') {
@@ -733,7 +743,12 @@ HopscotchBubble.prototype = {
     }
     else {
       top += utils.getPixelValue(step.yOffset);
-    }
+      // BEGIN - ADDED BY GARY LAPOINTE 11/17/2017:
+      if (utils.getPixelValue(step.yOffset) === 0 && (step.placement === 'left' || step.placement === 'right')) {
+        top -= this.opt.arrowWidth;
+      }
+      // END - ADDED BY GARY LAPOINTE 11/17/2017
+  }
 
     // ADJUST TOP FOR SCROLL POSITION
     if (!step.fixedElement) {
@@ -743,12 +758,6 @@ HopscotchBubble.prototype = {
 
     // ACCOUNT FOR FIXED POSITION ELEMENTS
     el.style.position = (step.fixedElement ? 'fixed' : 'absolute');
-
-    if ((step.placement === 'left' || step.placement === 'right') && step.yOffset === 0 && step.arrowOffset === 0) {
-      top -= 25; // Arrow height is 17 plus about a small pad above it.
-    } else if ((step.placement === 'top' || step.placement === 'bottom') && step.xOffset === 0 && step.arrowOffset === 0) {
-      left -= 29;
-    }
 
     el.style.top = top + 'px';
     el.style.left = left + 'px';
@@ -1071,9 +1080,11 @@ HopscotchBubble.prototype = {
       }
     }
     else if (action === 'next'){
+        utils.invokeEventCallbacks('beforenext');
       winHopscotch.nextStep(true);
     }
     else if (action === 'prev'){
+        utils.invokeEventCallbacks('beforeprev');
       winHopscotch.prevStep(true);
     }
     else if (action === 'close'){
@@ -1433,9 +1444,44 @@ Hopscotch = function(initOptions) {
   targetClickNextFn = function() {
     self.nextStep();
   },
+  targetClickFocusShowFn = function() {
+    var el = this;
+    if (typeof(el.stepNum) === undefinedStr || el.stepNum === self.getCurrStepNum()) { return; }
+    self.showStep(el.stepNum);
+  },
+  _addClickOrFocusToShowEvent = function() {
+    for (var i = 0; i < currTour.steps.length; i++) {
+      var step = currTour.steps[i];
+      // If were moving to the next step when a target is clicked then we don't want to show the current step when that same target is clicked.
+      if (step.nextOnTargetClick) { continue; }
+      if (!step.showOnTargetClickFocus) { continue; }
+      var targetEl = utils.getStepTarget(step);
+      if (!targetEl) { continue; }
 
+      utils.removeEvtListener(targetEl, 'focus', targetClickFocusShowFn);
+      utils.addEvtListener(targetEl, 'focus', targetClickFocusShowFn);
+      utils.removeEvtListener(targetEl, 'click', targetClickFocusShowFn);
+      utils.addEvtListener(targetEl, 'click', targetClickFocusShowFn);
+      targetEl.stepNum = i;
+    }
+  },
+  _removeClickOrFocusToShowEvent = function() {
+    for (var i = 0; i < currTour.steps.length; i++) {
+      var step = currTour.steps[i];
+      // If were moving to the next step when a target is clicked then we don't want to show the current step when that same target is clicked.
+      if (step.nextOnTargetClick) { continue; }
+      if (!step.showOnTargetClickFocus) { continue; }
+      var targetEl = utils.getStepTarget(step);
+      if (!targetEl) { continue; }
+
+      utils.removeEvtListener(targetEl, 'focus', targetClickFocusShowFn);
+      utils.removeEvtListener(targetEl, 'click', targetClickFocusShowFn);
+    }
+  },
+  
   adjustWindowScroll = function(cb) {
     var targetEl = utils.getStepTarget(getCurrStep());
+    if (targetEl === null) { return; }
     var scrollableParent = utils.getScrollParent(targetEl, false);
     if (scrollableParent != null && scrollableParent !== document) {
       targetEl.scrollIntoView({behavior:'smooth'});
@@ -1596,10 +1642,8 @@ Hopscotch = function(initOptions) {
 
       currStepNum += direction;
       step = getCurrStep();
-
       goToStepFn = function() {
         target = utils.getStepTarget(step);
-
         if (target) {
           //this step was previously skipped, but now its target exists,
           //remove this step from skipped steps set
@@ -1918,6 +1962,9 @@ Hopscotch = function(initOptions) {
         skippedSteps = {},
         self = this;
 
+    // Need to re-evalute this variable as jQuery could have been loaded later.
+    hasJquery = (typeof jQuery !== undefinedStr);
+
     // loadTour if we are calling startTour directly. (When we call startTour
     // from window onLoad handler, we'll use currTour)
     if (!currTour) {
@@ -1962,6 +2009,7 @@ Hopscotch = function(initOptions) {
     else if (!currStepNum) {
       currStepNum = 0;
     }
+    _addClickOrFocusToShowEvent(currTour);
 
     // Find the current step we should begin the tour on, and then actually start the tour.
     findStartingStep(currStepNum, skippedSteps, function(stepNum) {
@@ -2072,6 +2120,7 @@ Hopscotch = function(initOptions) {
 
     //remove event listener if current step had it added
     if(currTour) {
+      _removeClickOrFocusToShowEvent();
       currentStep = getCurrStep();
       if(currentStep && currentStep.nextOnTargetClick) {
         utils.removeEvtListener(utils.getStepTarget(currentStep), 'click', targetClickNextFn);
@@ -2332,7 +2381,7 @@ Hopscotch = function(initOptions) {
    */
   _configure = function(options, isTourOptions) {
     var bubble,
-        events = ['next', 'prev', 'start', 'end', 'show', 'error', 'close'],
+        events = ['next', 'beforenext', 'prev', 'beforeprev', 'start', 'end', 'show', 'error', 'close'],
         eventPropName,
         callbackProp,
         i,

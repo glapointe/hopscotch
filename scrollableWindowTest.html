@@ -1,0 +1,63 @@
+<html>
+	<head>
+		<script type="text/javascript" src="https://visualsponline.azurewebsites.net/app/lib/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="http://127.0.0.1:3000/tmp/js/hopscotch_umd.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:3000/tmp/css/hopscotch.css" />
+		<style type="text/css">
+			ul {
+				list-style: none;
+				height: 300px;
+				overflow: auto;
+				border: 1px solid red;
+				margin-top: 700px;
+			}
+			li {
+				width: 200px;
+				height: 300px;
+				background-color: #EFEFEF;
+				border: 1px solid #AAA;
+				margin-bottom: 10px;
+				padding: 5px 10px;
+				color: #666;
+			}
+		</style>
+		<script type="text/javascript">//<![CDATA[
+			function startTour(){
+
+					var tour = {
+						id: "welcome_to_my_tour",
+						steps: [{
+							title: "Example tour",
+							content: "First step of the tour",
+							target: "#tour_step_one",
+							placement: "top"
+						}, {
+							title: "Example tour",
+							content: "Second step of the tour",
+							target: "#tour_step_two",
+							placement: "right"
+						}, {
+							title: "Example tour",
+							content: "Last step of the tour",
+							target: "#tour_step_three",
+							placement: "right"
+						}]
+					};
+
+					hopscotch.startTour(tour);
+			}//]]> 
+
+		</script>
+	</head>
+	<body>
+		<div style="overflow:auto;height:400px">
+		<button onclick="startTour()">Start Tour</button>
+		<ul>
+			<li id="tour_step_two">Second item</li>
+			<li id="tour_step_one">First item</li>
+			<li id="tour_step_three">Third item</li>
+		</ul>
+		</div>
+	</body>
+</html>
