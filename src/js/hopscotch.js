@@ -1442,6 +1442,7 @@ Hopscotch = function(initOptions) {
    * @private
    */
   targetClickNextFn = function() {
+    utils.invokeEventCallbacks('beforenext');
     self.nextStep();
   },
   targetClickFocusShowFn = function() {
@@ -2036,6 +2037,7 @@ Hopscotch = function(initOptions) {
         // First step element doesn't exist
         utils.invokeEventCallbacks('error');
         if (getOption('skipIfNoElement')) {
+            utils.invokeEventCallbacks('beforenext');
           self.nextStep(false);
         }
       }

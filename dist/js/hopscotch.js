@@ -1453,6 +1453,7 @@
      * @private
      */
     targetClickNextFn = function targetClickNextFn() {
+      utils.invokeEventCallbacks('beforenext');
       self.nextStep();
     },
         targetClickFocusShowFn = function targetClickFocusShowFn() {
@@ -2058,6 +2059,7 @@
           // First step element doesn't exist
           utils.invokeEventCallbacks('error');
           if (getOption('skipIfNoElement')) {
+            utils.invokeEventCallbacks('beforenext');
             self.nextStep(false);
           }
         } else {

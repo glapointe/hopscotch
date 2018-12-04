@@ -1449,6 +1449,7 @@ define(function () { 'use strict';
      * @private
      */
     targetClickNextFn = function targetClickNextFn() {
+      utils.invokeEventCallbacks('beforenext');
       self.nextStep();
     },
         targetClickFocusShowFn = function targetClickFocusShowFn() {
@@ -2054,6 +2055,7 @@ define(function () { 'use strict';
           // First step element doesn't exist
           utils.invokeEventCallbacks('error');
           if (getOption('skipIfNoElement')) {
+            utils.invokeEventCallbacks('beforenext');
             self.nextStep(false);
           }
         } else {
