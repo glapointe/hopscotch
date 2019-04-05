@@ -315,7 +315,7 @@
           len;
 
       if (stepCb) {
-        return this.invokeCallback(stepCb);
+        this.invokeCallback(stepCb);
       }
 
       for (i = 0, len = cbArr.length; i < len; ++i) {
@@ -619,6 +619,7 @@
     beforeprev: [],
     start: [],
     end: [],
+    beforeshow: [],
     show: [],
     error: [],
     close: []
@@ -1913,6 +1914,7 @@
 
       bubble.hide(false);
 
+      utils.invokeEventCallbacks('beforeshow');
       bubble.render(step, stepNum, function (adjustScroll) {
         // when done adjusting window scroll, call showBubble helper fn
         if (adjustScroll) {
@@ -2399,7 +2401,7 @@
      */
     _configure = function _configure(options, isTourOptions) {
       var bubble,
-          events = ['next', 'beforenext', 'prev', 'beforeprev', 'start', 'end', 'show', 'error', 'close'],
+          events = ['next', 'beforenext', 'prev', 'beforeprev', 'start', 'end', 'beforeshow', 'show', 'error', 'close'],
           eventPropName,
           callbackProp,
           i,

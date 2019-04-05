@@ -291,7 +291,7 @@ utils = {
         len;
 
     if (stepCb) {
-      return this.invokeCallback(stepCb);
+      this.invokeCallback(stepCb);
     }
 
     for (i=0, len=cbArr.length; i<len; ++i) {
@@ -599,6 +599,7 @@ callbacks = {
   beforeprev: [],
   start: [],
   end:   [],
+  beforeshow: [],
   show:  [],
   error: [],
   close: []
@@ -1888,6 +1889,7 @@ Hopscotch = function(initOptions) {
 
     bubble.hide(false);
 
+    utils.invokeEventCallbacks('beforeshow');
     bubble.render(step, stepNum, function(adjustScroll) {
       // when done adjusting window scroll, call showBubble helper fn
       if (adjustScroll) {
@@ -2383,7 +2385,7 @@ Hopscotch = function(initOptions) {
    */
   _configure = function(options, isTourOptions) {
     var bubble,
-        events = ['next', 'beforenext', 'prev', 'beforeprev', 'start', 'end', 'show', 'error', 'close'],
+        events = ['next', 'beforenext', 'prev', 'beforeprev', 'start', 'end', 'beforeshow', 'show', 'error', 'close'],
         eventPropName,
         callbackProp,
         i,

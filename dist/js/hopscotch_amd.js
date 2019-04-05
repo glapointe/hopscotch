@@ -311,7 +311,7 @@ define(function () { 'use strict';
           len;
 
       if (stepCb) {
-        return this.invokeCallback(stepCb);
+        this.invokeCallback(stepCb);
       }
 
       for (i = 0, len = cbArr.length; i < len; ++i) {
@@ -615,6 +615,7 @@ define(function () { 'use strict';
     beforeprev: [],
     start: [],
     end: [],
+    beforeshow: [],
     show: [],
     error: [],
     close: []
@@ -1909,6 +1910,7 @@ define(function () { 'use strict';
 
       bubble.hide(false);
 
+      utils.invokeEventCallbacks('beforeshow');
       bubble.render(step, stepNum, function (adjustScroll) {
         // when done adjusting window scroll, call showBubble helper fn
         if (adjustScroll) {
@@ -2395,7 +2397,7 @@ define(function () { 'use strict';
      */
     _configure = function _configure(options, isTourOptions) {
       var bubble,
-          events = ['next', 'beforenext', 'prev', 'beforeprev', 'start', 'end', 'show', 'error', 'close'],
+          events = ['next', 'beforenext', 'prev', 'beforeprev', 'start', 'end', 'beforeshow', 'show', 'error', 'close'],
           eventPropName,
           callbackProp,
           i,
