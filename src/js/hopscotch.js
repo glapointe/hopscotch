@@ -93,6 +93,7 @@ var onScrollHandler = function() {
  * @private
  */
 utils = {
+    Hopscotch: null,
   getScrollParent: function(element, includeHidden) {
     var position = this.getCss(element, 'position'),
         excludeStaticParent = position === 'absolute',
@@ -397,7 +398,14 @@ utils = {
    * @private
    */
   getStepTargetHelper: function(target){
-    var result = document.getElementById(target);
+    var result = null;  
+    if (this.Hopscotch && this.Hopscotch.getElementFromSelectorCBRegistered()) {
+        result = this.Hopscotch.getElementFromSelector(target);
+        if (result) {
+            return result.length > 0 ? result[0] : null;
+        }
+    }
+    result = document.getElementById(target);
 
     //Backwards compatibility: assume the string is an id
     if (result) {
@@ -1362,6 +1370,7 @@ Hopscotch = function(initOptions) {
       cookieTourStep,
       cookieSkippedSteps = [],
       _configure,
+      _getElementFromSelectorCB,
 
   /**
    * getBubble
@@ -1949,6 +1958,19 @@ Hopscotch = function(initOptions) {
     return calloutMgr;
   };
 
+    this.registerGetElementFromSelectorCB = function(callback) {
+        _getElementFromSelectorCB = callback;
+    };
+    this.getElementFromSelectorCBRegistered = function() {
+        return _getElementFromSelectorCB != null;
+    };
+    this.getElementFromSelector = function(selector) {
+        if (this.getElementFromSelectorCBRegistered()) {
+            return _getElementFromSelectorCB(selector);
+        }
+        return null;
+    };
+
   /**
    * startTour
    *
@@ -1964,7 +1986,7 @@ Hopscotch = function(initOptions) {
         currStepNum,
         skippedSteps = {},
         self = this;
-
+    utils.Hopscotch = this;
     // Need to re-evalute this variable as jQuery could have been loaded later.
     hasJquery = (typeof jQuery !== undefinedStr);
 

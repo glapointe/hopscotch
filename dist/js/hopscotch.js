@@ -120,6 +120,7 @@
    * @private
    */
   utils = {
+    Hopscotch: null,
     getScrollParent: function getScrollParent(element, includeHidden) {
       var position = this.getCss(element, 'position'),
           excludeStaticParent = position === 'absolute',
@@ -418,7 +419,14 @@
      * @private
      */
     getStepTargetHelper: function getStepTargetHelper(target) {
-      var result = document.getElementById(target);
+      var result = null;
+      if (this.Hopscotch && this.Hopscotch.getElementFromSelectorCBRegistered()) {
+        result = this.Hopscotch.getElementFromSelector(target);
+        if (result) {
+          return result.length > 0 ? result[0] : null;
+        }
+      }
+      result = document.getElementById(target);
 
       //Backwards compatibility: assume the string is an id
       if (result) {
@@ -1369,6 +1377,7 @@
         cookieTourStep,
         cookieSkippedSteps = [],
         _configure,
+        _getElementFromSelectorCB,
 
 
     /**
@@ -1973,6 +1982,19 @@
       return calloutMgr;
     };
 
+    this.registerGetElementFromSelectorCB = function (callback) {
+      _getElementFromSelectorCB = callback;
+    };
+    this.getElementFromSelectorCBRegistered = function () {
+      return _getElementFromSelectorCB != null;
+    };
+    this.getElementFromSelector = function (selector) {
+      if (this.getElementFromSelectorCBRegistered()) {
+        return _getElementFromSelectorCB(selector);
+      }
+      return null;
+    };
+
     /**
      * startTour
      *
@@ -1988,7 +2010,7 @@
           currStepNum,
           skippedSteps = {},
           self = this;
-
+      utils.Hopscotch = this;
       // Need to re-evalute this variable as jQuery could have been loaded later.
       hasJquery = (typeof jQuery === 'undefined' ? 'undefined' : _typeof(jQuery)) !== undefinedStr;
 
