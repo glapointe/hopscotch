@@ -734,7 +734,11 @@ HopscotchBubble.prototype = {
 
     // HORIZONTAL OFFSET
     if (step.xOffset === 'center') {
-      left = (boundingRect.left + targetEl.offsetWidth/2) - (bubbleBoundingWidth / 2);
+        if (targetEl.tagName === 'BODY') {
+            left = 'calc(50vw - ' + (bubbleBoundingWidth / 2) + 'px)';
+        } else {
+            left = (boundingRect.left + targetEl.offsetWidth/2) - (bubbleBoundingWidth / 2);
+        }
     }
     else {
       left += utils.getPixelValue(step.xOffset);
@@ -748,7 +752,11 @@ HopscotchBubble.prototype = {
     }
     // VERTICAL OFFSET
     if (step.yOffset === 'center') {
-      top = (boundingRect.top + targetEl.offsetHeight/2) - (bubbleBoundingHeight / 2);
+        if (targetEl.tagName === 'BODY') {
+            top = 'calc(50vh - ' + (bubbleBoundingHeight / 2) + 'px)';
+        } else {
+            top = (boundingRect.top + targetEl.offsetHeight/2) - (bubbleBoundingHeight / 2);
+        }
     }
     else {
       top += utils.getPixelValue(step.yOffset);
@@ -761,15 +769,28 @@ HopscotchBubble.prototype = {
 
     // ADJUST TOP FOR SCROLL POSITION
     if (!step.fixedElement) {
-      top += utils.getScrollTop();
-      left += utils.getScrollLeft();
+        if (top.toString().indexOf('calc(') < 0) {
+            top += utils.getScrollTop();
+        }
+        if (left.toString().indexOf('calc(') < 0) {
+            left += utils.getScrollLeft();
+        }
     }
 
     // ACCOUNT FOR FIXED POSITION ELEMENTS
     el.style.position = (step.fixedElement ? 'fixed' : 'absolute');
 
-    el.style.top = top + 'px';
-    el.style.left = left + 'px';
+    if (left.toString().indexOf('calc(') >= 0) {
+        el.style.left = left;
+    } else {
+        el.style.left = left + 'px';
+    }
+    if (top.toString().indexOf('calc(') >= 0) {
+        el.style.top = top;
+    } else {
+        el.style.top = top + 'px';
+    }
+    
   },
 
   /**
