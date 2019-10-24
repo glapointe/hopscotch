@@ -1180,7 +1180,12 @@ define(function () { 'use strict';
       this.opt = opt;
 
       //Apply classes to bubble. Add "animated" for fade css animation
-      el.className = 'hopscotch-bubble animated';
+      var msie = window.navigator.userAgent.indexOf('MSIE ');
+      if (msie > 0) {
+        el.className = 'hopscotch-bubble';
+      } else {
+        el.className = 'hopscotch-bubble animated';
+      }
       if (!opt.isTourBubble) {
         utils.addClass(el, 'hopscotch-callout no-number');
       } else {
