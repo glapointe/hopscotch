@@ -1178,7 +1178,8 @@ HopscotchBubble.prototype = {
 
     //Apply classes to bubble. Add "animated" for fade css animation
     const msie = window.navigator.userAgent.indexOf('MSIE ');
-    if (msie > 0) {
+    const trident = ua.indexOf('Trident/');
+    if (msie > 0 || trident > 0) {
         el.className = 'hopscotch-bubble';
     } else {
         el.className = 'hopscotch-bubble animated';
