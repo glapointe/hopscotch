@@ -663,6 +663,63 @@ define(function () { 'use strict';
 
     currStep: undefined,
 
+    _changePosition: function _changePosition(step) {
+      var bubbleBoundingHeight,
+          bubbleBoundingWidth,
+          boundingRect,
+          targetEl = utils.getStepTarget(step),
+          el = this.element;
+
+      if (targetEl === null) {
+        return step.placement;
+      }
+
+      bubbleBoundingWidth = el.offsetWidth;
+      bubbleBoundingHeight = el.offsetHeight;
+
+      boundingRect = targetEl.getBoundingClientRect();
+      var placement = step.placement;
+      if (step.placement === 'left' && (boundingRect.left - bubbleBoundingWidth < 0 || boundingRect.bottom + bubbleBoundingHeight > window.innerHeight)) {
+        // The bubble is positioned left but would appear off screen.
+        // Change it to right as long as it doesn't put it off screen to the right.
+        if (boundingRect.right + bubbleBoundingWidth < window.innerWidth && boundingRect.bottom + bubbleBoundingHeight < window.innerHeight) {
+          placement = 'right';
+        } else if (boundingRect.top - bubbleBoundingHeight > 0 && boundingRect.right + bubbleBoundingWidth < window.innerWidth) {
+          placement = 'top';
+        } else if (boundingRect.bottom + bubbleBoundingHeight < window.innerHeight && boundingRect.right + bubbleBoundingWidth < window.innerWidth) {
+          placement = 'bottom';
+        }
+      } else if (step.placement === 'right' && (boundingRect.right + bubbleBoundingWidth > window.innerWidth || boundingRect.bottom + bubbleBoundingHeight > window.innerHeight)) {
+        if (boundingRect.left - bubbleBoundingWidth < 0 && boundingRect.bottom + bubbleBoundingHeight < window.innerHeight0) {
+          placement = 'left';
+        } else if (boundingRect.top - bubbleBoundingHeight > 0 && boundingRect.right + bubbleBoundingWidth < window.innerWidth) {
+          placement = 'top';
+        } else if (boundingRect.bottom + bubbleBoundingHeight < window.innerHeight && boundingRect.right + bubbleBoundingWidth < window.innerWidth) {
+          placement = 'bottom';
+        }
+      } else if (step.placement === 'top' && boundingRect.top - bubbleBoundingHeight < 0) {
+        if (boundingRect.bottom + bubbleBoundingHeight < window.innerHeight && boundingRect.right + bubbleBoundingWidth < window.innerWidth) {
+          placement = 'bottom';
+        } else if (boundingRect.left - bubbleBoundingWidth < 0 && boundingRect.bottom + bubbleBoundingHeight < window.innerHeight) {
+          placement = 'left';
+        } else if (boundingRect.right + bubbleBoundingWidth < window.innerWidth && boundingRect.bottom + bubbleBoundingHeight < window.innerHeight) {
+          placement = 'right';
+        }
+      } else if (step.placement === 'bottom' && boundingRect.bottom + bubbleBoundingHeight > window.innerHeight) {
+        if (boundingRect.top - bubbleBoundingHeight > 0 && boundingRect.right + bubbleBoundingWidth < window.innerWidth) {
+          placement = 'top';
+        } else if (boundingRect.left - bubbleBoundingWidth < 0 && boundingRect.bottom + bubbleBoundingHeight < window.innerHeight) {
+          placement = 'left';
+        } else if (boundingRect.right + bubbleBoundingWidth < window.innerWidth && boundingRect.bottom + bubbleBoundingHeight < window.innerHeight) {
+          placement = 'right';
+        }
+      }
+      if (placement !== step.placement) {
+        // step.placement = placement;
+        // this._setArrow(step.placement);
+      }
+      return placement;
+    },
     /**
      * setPosition
      *
@@ -698,20 +755,37 @@ define(function () { 'use strict';
 
       verticalLeftPosition = step.isRtl ? boundingRect.right - bubbleBoundingWidth : boundingRect.left;
 
-      if (step.placement === 'top') {
+      var placement = this._changePosition(step);
+      this._setArrow(placement);
+      this.placement = placement;
+
+      if (placement === 'top') {
         top = boundingRect.top - bubbleBoundingHeight - this.opt.arrowWidth;
         left = verticalLeftPosition;
-      } else if (step.placement === 'bottom') {
+      } else if (placement === 'bottom') {
         top = boundingRect.bottom + this.opt.arrowWidth;
         left = verticalLeftPosition;
-      } else if (step.placement === 'left') {
+      } else if (placement === 'left') {
         top = boundingRect.top;
         left = boundingRect.left - bubbleBoundingWidth - this.opt.arrowWidth;
-      } else if (step.placement === 'right') {
+      } else if (placement === 'right') {
         top = boundingRect.top;
         left = boundingRect.right + this.opt.arrowWidth;
       } else {
         throw new Error('Bubble placement failed because step.placement is invalid or undefined!');
+      }
+      var pad = 5;
+      if (top + bubbleBoundingHeight + pad > window.innerHeight) {
+        top = window.innerHeight - bubbleBoundingHeight - pad;
+      }
+      if (top < pad) {
+        top = pad;
+      }
+      if (left + bubbleBoundingWidth + pad > window.innerWidth) {
+        left = window.innerWidth - bubbleBoundingWidth - pad;
+      }
+      if (left < pad) {
+        left = pad;
       }
 
       // SET (OR RESET) ARROW OFFSETS
@@ -723,7 +797,7 @@ define(function () { 'use strict';
       if (!arrowOffset) {
         arrowEl.style.top = '';
         arrowEl.style[arrowPos] = '';
-      } else if (step.placement === 'top' || step.placement === 'bottom') {
+      } else if (placement === 'top' || placement === 'bottom') {
         arrowEl.style.top = '';
         if (arrowOffset === 'center') {
           arrowEl.style[arrowPos] = Math.floor(bubbleBoundingWidth / 2 - arrowEl.offsetWidth / 2) + 'px';
@@ -731,7 +805,7 @@ define(function () { 'use strict';
           // Numeric pixel value
           arrowEl.style[arrowPos] = arrowOffset + 'px';
         }
-      } else if (step.placement === 'left' || step.placement === 'right') {
+      } else if (placement === 'left' || placement === 'right') {
         arrowEl.style[arrowPos] = '';
         if (arrowOffset === 'center') {
           arrowEl.style.top = Math.floor(bubbleBoundingHeight / 2 - arrowEl.offsetHeight / 2) + 'px';
@@ -752,7 +826,7 @@ define(function () { 'use strict';
         left += utils.getPixelValue(step.xOffset);
 
         // BEGIN - ADDED BY GARY LAPOINTE 11/17/2017:
-        if (utils.getPixelValue(step.xOffset) === 0 && (step.placement === 'top' || step.placement === 'bottom')) {
+        if (utils.getPixelValue(step.xOffset) === 0 && (placement === 'top' || placement === 'bottom')) {
           left -= this.opt.arrowWidth;
         }
         // END - ADDED BY GARY LAPOINTE 11/17/2017
@@ -767,7 +841,7 @@ define(function () { 'use strict';
       } else {
         top += utils.getPixelValue(step.yOffset);
         // BEGIN - ADDED BY GARY LAPOINTE 11/17/2017:
-        if (utils.getPixelValue(step.yOffset) === 0 && (step.placement === 'left' || step.placement === 'right')) {
+        if (utils.getPixelValue(step.yOffset) === 0 && (placement === 'left' || placement === 'right')) {
           top -= this.opt.arrowWidth;
         }
         // END - ADDED BY GARY LAPOINTE 11/17/2017
