@@ -168,6 +168,9 @@ define(function () { 'use strict';
      * @private
      */
     addClass: function addClass(domEl, classToAdd) {
+      if (domEl == null) {
+        return;
+      }
       var domClasses, classToAddArr, setClass, i, len;
 
       if (!domEl.className) {
@@ -192,6 +195,9 @@ define(function () { 'use strict';
      * @private
      */
     removeClass: function removeClass(domEl, classToRemove) {
+      if (domEl == null) {
+        return;
+      }
       var domClasses, classToRemoveArr, currClass, i, len;
 
       classToRemoveArr = classToRemove.split(/\s+/);
@@ -209,7 +215,9 @@ define(function () { 'use strict';
      */
     hasClass: function hasClass(domEl, classToCheck) {
       var classes;
-
+      if (domEl == null) {
+        return false;
+      }
       if (!domEl.className) {
         return false;
       }

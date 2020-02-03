@@ -146,6 +146,7 @@ utils = {
    * @private
    */
   addClass: function(domEl, classToAdd) {
+    if (domEl == null) { return; }
     var domClasses,
         classToAddArr,
         setClass,
@@ -175,6 +176,7 @@ utils = {
    * @private
    */
   removeClass: function(domEl, classToRemove) {
+    if (domEl == null) { return; }
     var domClasses,
         classToRemoveArr,
         currClass,
@@ -196,7 +198,7 @@ utils = {
    */
   hasClass: function(domEl, classToCheck){
     var classes;
-
+    if (domEl == null) { return false; }
     if(!domEl.className){ return false; }
     classes = ' ' + domEl.className + ' ';
     return (classes.indexOf(' ' + classToCheck + ' ') !== -1);
