@@ -665,30 +665,32 @@ HopscotchBubble.prototype = {
     let placement = step.placement;
     if (step.placement === 'left' && (
         boundingRect.left - bubbleBoundingWidth < 0 || 
-        boundingRect.bottom + bubbleBoundingHeight > window.innerHeight)) {
+        boundingRect.top + bubbleBoundingHeight > window.innerHeight ||
+        boundingRect.bottom < 0)) {
         // The bubble is positioned left but would appear off screen.
         // Change it to right as long as it doesn't put it off screen to the right.
         if (boundingRect.right + bubbleBoundingWidth < window.innerWidth &&
             boundingRect.bottom + bubbleBoundingHeight < window.innerHeight) {
             placement = 'right';
-        } else if (boundingRect.top - bubbleBoundingHeight > 0 && 
-            boundingRect.right + bubbleBoundingWidth < window.innerWidth) {
+        } else if ((boundingRect.top - bubbleBoundingHeight > 0 && 
+            boundingRect.right + bubbleBoundingWidth < window.innerWidth) || window.innerHeight - boundingRect.top < 0) {
             placement = 'top';
-        } else if (boundingRect.bottom + bubbleBoundingHeight < window.innerHeight && 
-            boundingRect.right + bubbleBoundingWidth < window.innerWidth) {
+        } else if ((boundingRect.bottom + bubbleBoundingHeight < window.innerHeight && 
+            boundingRect.right + bubbleBoundingWidth < window.innerWidth) || boundingRect.bottom < 0) {
             placement = 'bottom';
         }
     } else if (step.placement === 'right' && (
         boundingRect.right + bubbleBoundingWidth > window.innerWidth ||
-        boundingRect.bottom + bubbleBoundingHeight > window.innerHeight)) {
+        boundingRect.top + bubbleBoundingHeight > window.innerHeight) ||
+        boundingRect.bottom < 0) {
         if (boundingRect.left - bubbleBoundingWidth < 0 &&
-            boundingRect.bottom + bubbleBoundingHeight < window.innerHeight0) {
+            boundingRect.bottom + bubbleBoundingHeight < window.innerHeight) {
             placement = 'left';
-        } else if (boundingRect.top - bubbleBoundingHeight > 0 && 
-            boundingRect.right + bubbleBoundingWidth < window.innerWidth) {
+        } else if ((boundingRect.top - bubbleBoundingHeight > 0 && 
+            boundingRect.right + bubbleBoundingWidth < window.innerWidth) || window.innerHeight - boundingRect.top < 0) {
             placement = 'top';
-        } else if (boundingRect.bottom + bubbleBoundingHeight < window.innerHeight && 
-            boundingRect.right + bubbleBoundingWidth < window.innerWidth) {
+        } else if ((boundingRect.bottom + bubbleBoundingHeight < window.innerHeight && 
+            boundingRect.right + bubbleBoundingWidth < window.innerWidth) || boundingRect.bottom < 0) {
             placement = 'bottom';
         }
     } else if (step.placement === 'top' && boundingRect.top - bubbleBoundingHeight < 0) {
@@ -793,29 +795,31 @@ HopscotchBubble.prototype = {
     else {
       arrowOffset = step.arrowOffset;
     }
-    if (!arrowOffset) {
-      arrowEl.style.top = '';
-      arrowEl.style[arrowPos] = '';
-    }
-    else if (placement === 'top' || placement === 'bottom') {
-      arrowEl.style.top = '';
-      if (arrowOffset === 'center') {
-        arrowEl.style[arrowPos] = Math.floor((bubbleBoundingWidth / 2) - arrowEl.offsetWidth/2) + 'px';
-      }
-      else {
-        // Numeric pixel value
-        arrowEl.style[arrowPos] = arrowOffset + 'px';
-      }
-    }
-    else if (placement === 'left' || placement === 'right') {
-      arrowEl.style[arrowPos] = '';
-      if (arrowOffset === 'center') {
-        arrowEl.style.top = Math.floor((bubbleBoundingHeight / 2) - arrowEl.offsetHeight/2) + 'px';
-      }
-      else {
-        // Numeric pixel value
-        arrowEl.style.top = arrowOffset + 'px';
-      }
+    if (arrowEl != null) {
+        if (!arrowOffset) {
+            arrowEl.style.top = '';
+            arrowEl.style[arrowPos] = '';
+        }
+        else if (placement === 'top' || placement === 'bottom') {
+            arrowEl.style.top = '';
+            if (arrowOffset === 'center') {
+                arrowEl.style[arrowPos] = Math.floor((bubbleBoundingWidth / 2) - arrowEl.offsetWidth/2) + 'px';
+            }
+            else {
+                // Numeric pixel value
+                arrowEl.style[arrowPos] = arrowOffset + 'px';
+            }
+        }
+        else if (placement === 'left' || placement === 'right') {
+            arrowEl.style[arrowPos] = '';
+            if (arrowOffset === 'center') {
+                arrowEl.style.top = Math.floor((bubbleBoundingHeight / 2) - arrowEl.offsetHeight/2) + 'px';
+            }
+            else {
+                // Numeric pixel value
+                arrowEl.style.top = arrowOffset + 'px';
+            }
+        }
     }
 
     // HORIZONTAL OFFSET
@@ -864,17 +868,19 @@ HopscotchBubble.prototype = {
     }
 
     // ACCOUNT FOR FIXED POSITION ELEMENTS
-    el.style.position = (step.fixedElement ? 'fixed' : 'absolute');
+    if (el != null) {
+        el.style.position = (step.fixedElement ? 'fixed' : 'absolute');
 
-    if (left.toString().indexOf('calc(') >= 0) {
-        el.style.left = left;
-    } else {
-        el.style.left = left + 'px';
-    }
-    if (top.toString().indexOf('calc(') >= 0) {
-        el.style.top = top;
-    } else {
-        el.style.top = top + 'px';
+        if (left.toString().indexOf('calc(') >= 0) {
+            el.style.left = left;
+        } else {
+            el.style.left = left + 'px';
+        }
+        if (top.toString().indexOf('calc(') >= 0) {
+            el.style.top = top;
+        } else {
+            el.style.top = top + 'px';
+        }
     }
     
   },
