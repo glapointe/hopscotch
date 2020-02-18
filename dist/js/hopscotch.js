@@ -2119,7 +2119,6 @@
      */
     this.startTour = function (tour, stepNum) {
       var bubble,
-          currStepNum,
           skippedSteps = {},
           self = this;
       utils.Hopscotch = this;
@@ -2143,7 +2142,6 @@
         currTour = tour;
         loadTour.call(this, tour);
       }
-
       if ((typeof stepNum === 'undefined' ? 'undefined' : _typeof(stepNum)) !== undefinedStr) {
         if (stepNum >= currTour.steps.length) {
           throw new Error('Specified step number out of bounds.');

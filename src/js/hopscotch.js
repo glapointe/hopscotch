@@ -2102,7 +2102,6 @@ Hopscotch = function(initOptions) {
    */
   this.startTour = function(tour, stepNum) {
     var bubble,
-        currStepNum,
         skippedSteps = {},
         self = this;
     utils.Hopscotch = this;
@@ -2127,7 +2126,6 @@ Hopscotch = function(initOptions) {
       loadTour.call(this, tour);
 
     }
-
     if (typeof stepNum !== undefinedStr) {
       if (stepNum >= currTour.steps.length) {
         throw new Error('Specified step number out of bounds.');
@@ -2138,8 +2136,8 @@ Hopscotch = function(initOptions) {
     // If document isn't ready, wait for it to finish loading.
     // (so that we can calculate positioning accurately)
     if (!utils.documentIsReady()) {
-      waitingToStart = true;
-      return this;
+        waitingToStart = true;
+        return this;
     }
 
     if (typeof currStepNum === "undefined" && currTour.id === cookieTourId && typeof cookieTourStep !== undefinedStr) {
