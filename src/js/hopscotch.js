@@ -1282,6 +1282,9 @@ HopscotchBubble.prototype = {
       currTour = winHopscotch.getCurrTour();
       if(currTour){
         utils.addClass(el, 'tour-' + currTour.id);
+        if (tour.steps.length === 1) {
+            utils.addClass(el, 'no-number');
+        }
       }
     }
 
