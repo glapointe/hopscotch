@@ -801,7 +801,13 @@
       }
 
       // SET (OR RESET) ARROW OFFSETS
-      if (step.arrowOffset !== 'center') {
+      if ((step.arrowOffset === 'left' || step.arrowOffset === 'right') && (placement === 'left' || placement === 'right')) {
+        step.arrowOffset = step.arrowOffset === 'left' ? 'top' : 'bottom';
+      } else if ((step.arrowOffset === 'top' || step.arrowOffset === 'bottom') && (placement === 'top' || placement === 'bottom')) {
+        step.arrowOffset = step.arrowOffset === 'top' ? 'left' : 'right';
+      }
+
+      if (step.arrowOffset !== 'center' && step.arrowOffset !== 'left' && step.arrowOffset !== 'right' && step.arrowOffset !== 'bottom' && step.arrowOffset !== 'top') {
         arrowOffset = utils.getPixelValue(step.arrowOffset);
       } else {
         arrowOffset = step.arrowOffset;
@@ -814,6 +820,10 @@
           arrowEl.style.top = '';
           if (arrowOffset === 'center') {
             arrowEl.style[arrowPos] = Math.floor(bubbleBoundingWidth / 2 - arrowEl.offsetWidth / 2) + 'px';
+          } else if (arrowOffset === 'left') {
+            arrowEl.style[arrowPos] = '0px';
+          } else if (arrowOffset === 'right') {
+            arrowEl.style[arrowPos] = bubbleBoundingWidth - arrowEl.offsetWidth - 10 - pad + 'px'; // 10 is the bubble border
           } else {
             // Numeric pixel value
             arrowEl.style[arrowPos] = arrowOffset + 'px';
@@ -822,6 +832,10 @@
           arrowEl.style[arrowPos] = '';
           if (arrowOffset === 'center') {
             arrowEl.style.top = Math.floor(bubbleBoundingHeight / 2 - arrowEl.offsetHeight / 2) + 'px';
+          } else if (arrowOffset === 'top') {
+            arrowEl.style[arrowPos] = '0px';
+          } else if (arrowOffset === 'bottom') {
+            arrowEl.style[arrowPos] = bubbleBoundingHeight - arrowEl.offsetHeight - 10 - pad + 'px';
           } else {
             // Numeric pixel value
             arrowEl.style.top = arrowOffset + 'px';
@@ -836,14 +850,30 @@
         } else {
           left = boundingRect.left + targetEl.offsetWidth / 2 - bubbleBoundingWidth / 2;
         }
+      } else if (step.xOffset === 'left') {
+        if (targetEl.tagName === 'BODY') {
+          left = 'calc(0px)';
+        } else {
+          left = boundingRect.left + this.opt.arrowWidth;
+          if (placement === 'top' || placement === 'bottom') {
+            left -= this.opt.arrowWidth;
+          }
+        }
+      } else if (step.xOffset === 'right') {
+        if (targetEl.tagName === 'BODY') {
+          left = 'calc(100vw - ' + bubbleBoundingWidth + 'px)';
+        } else {
+          left = boundingRect.right + this.opt.arrowWidth;
+          if (placement === 'top' || placement === 'bottom') {
+            left -= this.opt.arrowWidth;
+          }
+        }
       } else {
         left += utils.getPixelValue(step.xOffset);
 
-        // BEGIN - ADDED BY GARY LAPOINTE 11/17/2017:
         if (utils.getPixelValue(step.xOffset) === 0 && (placement === 'top' || placement === 'bottom')) {
           left -= this.opt.arrowWidth;
         }
-        // END - ADDED BY GARY LAPOINTE 11/17/2017
       }
       // VERTICAL OFFSET
       if (step.yOffset === 'center') {
@@ -852,13 +882,29 @@
         } else {
           top = boundingRect.top + targetEl.offsetHeight / 2 - bubbleBoundingHeight / 2;
         }
+      } else if (step.yOffset === 'top') {
+        if (targetEl.tagName === 'BODY') {
+          top = 'calc(0px)';
+        } else {
+          top = boundingRect.top + this.opt.arrowWidth;
+          if (placement === 'left' || placement === 'right') {
+            top -= this.opt.arrowWidth;
+          }
+        }
+      } else if (step.yOffset === 'bottom') {
+        if (targetEl.tagName === 'BODY') {
+          top = 'calc(100vh - ' + bubbleBoundingHeight + 'px)';
+        } else {
+          top = boundingRect.bottom + this.opt.arrowWidth;
+          if (placement === 'left' || placement === 'right') {
+            top -= this.opt.arrowWidth;
+          }
+        }
       } else {
         top += utils.getPixelValue(step.yOffset);
-        // BEGIN - ADDED BY GARY LAPOINTE 11/17/2017:
         if (utils.getPixelValue(step.yOffset) === 0 && (placement === 'left' || placement === 'right')) {
           top -= this.opt.arrowWidth;
         }
-        // END - ADDED BY GARY LAPOINTE 11/17/2017
       }
 
       // ADJUST TOP FOR SCROLL POSITION

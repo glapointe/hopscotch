@@ -329,7 +329,7 @@ div.hopscotch-bubble {
   font-family: Helvetica, Arial;
   font-size: 13px;
   position: absolute;
-  z-index: 999999;
+  z-index: 9999999;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
