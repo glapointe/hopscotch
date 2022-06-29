@@ -107,6 +107,7 @@ defaultOpts       = {
   showCloseButton: true,
   showPrevButton:  false,
   showNextButton:  true,
+  hideStepCount: false,
   bubbleWidth:     280,
   bubblePadding:   15,
   arrowWidth:      20,
@@ -1090,7 +1091,8 @@ HopscotchBubble.prototype = {
         isTour: this.opt.isTourBubble,
         numSteps: totalSteps,
         unsafe: utils.valOrDefault(unsafe, false),
-        customData: (customTourData || {})
+        customData: (customTourData || {}),
+        hideStepCount: utils.valOrDefault(this.opt.hideStepCount, false)
       }
     };
 
@@ -1625,7 +1627,8 @@ Hopscotch = function(initOptions) {
         showPrevButton:  getOption('showPrevButton'),
         showCloseButton: getOption('showCloseButton'),
         arrowWidth:      getOption('arrowWidth'),
-        isRtl:           getOption('isRtl')
+        isRtl:           getOption('isRtl'),
+        hideStepCount:   getOption('hideStepCount')
       });
     }
     return bubble;

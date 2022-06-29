@@ -1,7 +1,6 @@
 div.hopscotch-bubble {
   background-color: @bubbleColor;
-  border: @bubbleBorderWidth solid #000; /* default */
-  border: @bubbleBorderWidth solid @borderColor; /* transparent, if supported */
+  border: 0px solid transparent; /* default */
   color: #333;
   font-family: @bubbleFontFamily;
   font-size: 13px;
@@ -14,6 +13,8 @@ div.hopscotch-bubble {
   }
 
   .background-clip;
+  box-shadow: 0px 0px 30px #aaa;
+  border-radius: 6px;
 
   &.animate {
     -moz-transition-property: top, left;
@@ -48,7 +49,7 @@ div.hopscotch-bubble {
   }
 
   h3 {
-    color: #000;
+    color: #333;
     font-family: @bubbleFontFamily;
     font-size: 16px;
     font-weight: bold;
@@ -67,13 +68,18 @@ div.hopscotch-bubble {
   .hopscotch-content {
     font-family: @bubbleFontFamily;
     font-weight: normal;
-    line-height: 17px;
+    font-size: 14px;
+    color: #5e5e5e;
+    line-height: 20px;
     margin: -5px 0 11px;
     padding-top: 8px;
+    img {
+        max-width: 100%;
+    }
   }
 
   .hopscotch-bubble-content {
-    margin: 0 0 0 (@circleWidth + 10px);
+    margin: 0 0 0 0;
   }
 
   &.no-number .hopscotch-bubble-content {
@@ -97,10 +103,13 @@ div.hopscotch-bubble {
     text-indent: -9999px;
 
     width: 8px;
+    max-width: 8px;
+    min-width: 8px;
     height: 8px;
 
     top: 0;
     right: 0;
+    cursor: pointer;
 
     &.hide,
     &.hide-all {
@@ -147,7 +156,6 @@ div.hopscotch-bubble {
         top: 0 - @arrowWidth + @bubbleBorderWidth + 2;
       }
       .hopscotch-bubble-arrow-border {
-        border-bottom: @arrowWidth solid #000;
         border-bottom: @arrowWidth solid @borderColor;
         border-left: @arrowWidth solid transparent;
         border-right: @arrowWidth solid transparent;
@@ -165,7 +173,6 @@ div.hopscotch-bubble {
         top:          0 - @arrowWidth - @bubbleBorderWidth - 2;
       }
       .hopscotch-bubble-arrow-border {
-        border-top:   @arrowWidth solid #000;
         border-top:   @arrowWidth solid @borderColor;
         border-left:  @arrowWidth solid transparent;
         border-right: @arrowWidth solid transparent;
@@ -184,7 +191,6 @@ div.hopscotch-bubble {
         top: 0 - (2*@arrowWidth);
       }
       .hopscotch-bubble-arrow-border {
-        border-right:  @arrowWidth solid #000;
         border-right:  @arrowWidth solid @borderColor;
         border-bottom: @arrowWidth solid transparent;
         border-top:    @arrowWidth solid transparent;
@@ -203,7 +209,6 @@ div.hopscotch-bubble {
         top: 0 - (2*@arrowWidth);
       }
       .hopscotch-bubble-arrow-border {
-        border-left:   @arrowWidth solid #000;
         border-left:   @arrowWidth solid @borderColor;
         border-bottom: @arrowWidth solid transparent;
         border-top:    @arrowWidth solid transparent;
@@ -213,6 +218,19 @@ div.hopscotch-bubble {
 
   .hopscotch-actions {
     margin: 10px 0 0;
-    text-align: right;
+    display: flex;
+    justify-content: space-between;
+    .hopscotch-actions-stepcount {
+        opacity: .65;
+        span {
+            line-height: 20px;
+            display: inline-block;
+            color: #000;
+            border: solid 1px #5e5e5eff;
+            border-radius: 5px;
+            padding: 0px 5px;        
+            font-size: 11px;
+        }
+    }
   }
 }

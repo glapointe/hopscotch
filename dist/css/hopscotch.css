@@ -243,9 +243,9 @@ div.hopscotch-bubble .hopscotch-nav-button {
   overflow: visible;
   text-decoration: none !important;
   width: auto;
-  padding: 0 10px;
-  height: 26px;
-  line-height: 24px;
+  padding: 0 6px;
+  height: 22px;
+  line-height: 20px;
   font-size: 12px;
   *zoom: 1;
   white-space: nowrap;
@@ -263,12 +263,7 @@ div.hopscotch-bubble .hopscotch-nav-button {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-}
-div.hopscotch-bubble .hopscotch-nav-button:hover {
-  *zoom: 1;
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  text-transform: uppercase;
 }
 div.hopscotch-bubble .hopscotch-nav-button:active {
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) inset;
@@ -276,57 +271,35 @@ div.hopscotch-bubble .hopscotch-nav-button:active {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) inset;
 }
 div.hopscotch-bubble .hopscotch-nav-button.next {
-  border-color: #1b5480;
+  border-color: transparent;
   color: #fff;
-  margin: 0 0 0 10px;
-  /* HS specific*/
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
-  background-color: #287bbc;
-  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#287bbc', endColorstr='#23639a');
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #287bbc), color-stop(100%, #23639a));
-  background-image: -webkit-linear-gradient(to bottom, #287bbc 0%, #23639a 100%);
-  background-image: -moz-linear-gradient(to bottom, #287bbc 0%, #23639a 100%);
-  background-image: -o-linear-gradient(to bottom, #287bbc 0%, #23639a 100%);
-  background-image: linear-gradient(to bottom, #287bbc 0%, #23639a 100%);
+  margin: 0 0 0 5px;
+  background-color: #87bd2c;
 }
 div.hopscotch-bubble .hopscotch-nav-button.next:hover {
-  background-color: #2672ae;
-  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#2672ae', endColorstr='#1e4f7e');
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #2672ae), color-stop(100%, #1e4f7e));
-  background-image: -webkit-linear-gradient(to bottom, #2672ae 0%, #1e4f7e 100%);
-  background-image: -moz-linear-gradient(to bottom, #2672ae 0%, #1e4f7e 100%);
-  background-image: -o-linear-gradient(to bottom, #2672ae 0%, #1e4f7e 100%);
-  background-image: linear-gradient(to bottom, #2672ae 0%, #1e4f7e 100%);
+  background-color: #55a519;
 }
 div.hopscotch-bubble .hopscotch-nav-button.prev {
-  border-color: #a7a7a7;
-  color: #444;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-  background-color: #f2f2f2;
-  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#f2f2f2', endColorstr='#e9e9e9');
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f2f2f2), color-stop(100%, #e9e9e9));
-  background-image: -webkit-linear-gradient(to bottom, #f2f2f2 0%, #e9e9e9 100%);
-  background-image: -moz-linear-gradient(to bottom, #f2f2f2 0%, #e9e9e9 100%);
-  background-image: -o-linear-gradient(to bottom, #f2f2f2 0%, #e9e9e9 100%);
-  background-image: linear-gradient(to bottom, #f2f2f2 0%, #e9e9e9 100%);
+  background-color: transparent;
+  border-color: transparent;
+  color: #888;
 }
 div.hopscotch-bubble .hopscotch-nav-button.prev:hover {
-  background-color: #e8e8e8;
-  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFE8E8E8', endColorstr='#FFA9A9A9');
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e8e8e8), color-stop(13%, #e3e3e3), color-stop(32%, #d7d7d7), color-stop(71%, #b9b9b9), color-stop(100%, #a9a9a9));
-  background-image: -webkit-linear-gradient(to bottom, #e8e8e8 0%, #e3e3e3 13%, #d7d7d7 32%, #b9b9b9 71%, #a9a9a9 100%);
-  background-image: -moz-linear-gradient(to bottom, #e8e8e8 0%, #e3e3e3 13%, #d7d7d7 32%, #b9b9b9 71%, #a9a9a9 100%);
-  background-image: -o-linear-gradient(to bottom, #e8e8e8 0%, #e3e3e3 13%, #d7d7d7 32%, #b9b9b9 71%, #a9a9a9 100%);
-  background-image: linear-gradient(to bottom, #e8e8e8 0%, #e3e3e3 13%, #d7d7d7 32%, #b9b9b9 71%, #a9a9a9 100%);
+  color: #444;
+}
+div.hopscotch-bubble .hopscotch-nav-button.hopscotch-cta {
+  border-color: transparent;
+  background-color: #ff6416;
+}
+div.hopscotch-bubble .hopscotch-nav-button.hopscotch-cta:hover {
+  background-color: #e45913;
 }
 div.hopscotch-bubble {
   background-color: #ffffff;
-  border: 5px solid #000000;
+  border: 0px solid transparent;
   /* default */
-  border: 5px solid rgba(0, 0, 0, 0.5);
-  /* transparent, if supported */
   color: #333;
-  font-family: Helvetica, Arial;
+  font-family: 'Roboto', sans-serif, Helvetica, Arial;
   font-size: 13px;
   position: absolute;
   z-index: 9999999;
@@ -339,6 +312,8 @@ div.hopscotch-bubble {
   /* Webkit */
   background-clip: padding-box;
   /*  browsers with full support */
+  box-shadow: 0px 0px 30px #aaa;
+  border-radius: 6px;
 }
 div.hopscotch-bubble * {
   -webkit-box-sizing: content-box;
@@ -371,8 +346,8 @@ div.hopscotch-bubble .hide-all {
   display: none;
 }
 div.hopscotch-bubble h3 {
-  color: #000;
-  font-family: Helvetica, Arial;
+  color: #333;
+  font-family: 'Roboto', sans-serif, Helvetica, Arial;
   font-size: 16px;
   font-weight: bold;
   line-height: 19px;
@@ -387,14 +362,19 @@ div.hopscotch-bubble .hopscotch-bubble-container {
   /* to fix text flickering */
 }
 div.hopscotch-bubble .hopscotch-content {
-  font-family: Helvetica, Arial;
+  font-family: 'Roboto', sans-serif, Helvetica, Arial;
   font-weight: normal;
-  line-height: 17px;
+  font-size: 14px;
+  color: #5e5e5e;
+  line-height: 20px;
   margin: -5px 0 11px;
   padding-top: 8px;
 }
+div.hopscotch-bubble .hopscotch-content img {
+  max-width: 100%;
+}
 div.hopscotch-bubble .hopscotch-bubble-content {
-  margin: 0 0 0 40px;
+  margin: 0 0 0 0;
 }
 div.hopscotch-bubble.no-number .hopscotch-bubble-content {
   margin: 0;
@@ -415,9 +395,12 @@ div.hopscotch-bubble .hopscotch-bubble-close {
   text-decoration: none;
   text-indent: -9999px;
   width: 8px;
+  max-width: 8px;
+  min-width: 8px;
   height: 8px;
   top: 0;
   right: 0;
+  cursor: pointer;
 }
 div.hopscotch-bubble .hopscotch-bubble-close.hide,
 div.hopscotch-bubble .hopscotch-bubble-close.hide-all {
@@ -458,8 +441,7 @@ div.hopscotch-bubble .hopscotch-bubble-arrow-container.up .hopscotch-bubble-arro
   top: -10px;
 }
 div.hopscotch-bubble .hopscotch-bubble-arrow-container.up .hopscotch-bubble-arrow-border {
-  border-bottom: 17px solid #000000;
-  border-bottom: 17px solid rgba(0, 0, 0, 0.5);
+  border-bottom: 17px solid transparent;
   border-left: 17px solid transparent;
   border-right: 17px solid transparent;
 }
@@ -475,8 +457,7 @@ div.hopscotch-bubble .hopscotch-bubble-arrow-container.down .hopscotch-bubble-ar
   top: -24px;
 }
 div.hopscotch-bubble .hopscotch-bubble-arrow-container.down .hopscotch-bubble-arrow-border {
-  border-top: 17px solid #000000;
-  border-top: 17px solid rgba(0, 0, 0, 0.5);
+  border-top: 17px solid transparent;
   border-left: 17px solid transparent;
   border-right: 17px solid transparent;
 }
@@ -493,8 +474,7 @@ div.hopscotch-bubble .hopscotch-bubble-arrow-container.left .hopscotch-bubble-ar
   top: -34px;
 }
 div.hopscotch-bubble .hopscotch-bubble-arrow-container.left .hopscotch-bubble-arrow-border {
-  border-right: 17px solid #000000;
-  border-right: 17px solid rgba(0, 0, 0, 0.5);
+  border-right: 17px solid transparent;
   border-bottom: 17px solid transparent;
   border-top: 17px solid transparent;
 }
@@ -511,12 +491,24 @@ div.hopscotch-bubble .hopscotch-bubble-arrow-container.right .hopscotch-bubble-a
   top: -34px;
 }
 div.hopscotch-bubble .hopscotch-bubble-arrow-container.right .hopscotch-bubble-arrow-border {
-  border-left: 17px solid #000000;
-  border-left: 17px solid rgba(0, 0, 0, 0.5);
+  border-left: 17px solid transparent;
   border-bottom: 17px solid transparent;
   border-top: 17px solid transparent;
 }
 div.hopscotch-bubble .hopscotch-actions {
   margin: 10px 0 0;
-  text-align: right;
+  display: flex;
+  justify-content: space-between;
+}
+div.hopscotch-bubble .hopscotch-actions .hopscotch-actions-stepcount {
+  opacity: .65;
+}
+div.hopscotch-bubble .hopscotch-actions .hopscotch-actions-stepcount span {
+  line-height: 20px;
+  display: inline-block;
+  color: #000;
+  border: solid 1px #5e5e5eff;
+  border-radius: 5px;
+  padding: 0px 5px;
+  font-size: 11px;
 }

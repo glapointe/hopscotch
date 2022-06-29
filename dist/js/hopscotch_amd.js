@@ -118,6 +118,7 @@ define(function () { 'use strict';
     showCloseButton: true,
     showPrevButton: false,
     showNextButton: true,
+    hideStepCount: false,
     bubbleWidth: 280,
     bubblePadding: 15,
     arrowWidth: 20,
@@ -1072,7 +1073,8 @@ define(function () { 'use strict';
           isTour: this.opt.isTourBubble,
           numSteps: totalSteps,
           unsafe: utils.valOrDefault(unsafe, false),
-          customData: customTourData || {}
+          customData: customTourData || {},
+          hideStepCount: utils.valOrDefault(this.opt.hideStepCount, false)
         }
       };
 
@@ -1607,7 +1609,8 @@ define(function () { 'use strict';
           showPrevButton: getOption('showPrevButton'),
           showCloseButton: getOption('showCloseButton'),
           arrowWidth: getOption('arrowWidth'),
-          isRtl: getOption('isRtl')
+          isRtl: getOption('isRtl'),
+          hideStepCount: getOption('hideStepCount')
         });
       }
       return bubble;
@@ -2835,13 +2838,7 @@ __p += '\r\n<div class="hopscotch-bubble-container" style="width: ' +
 ((__t = ( step.width )) == null ? '' : __t) +
 'px; padding: ' +
 ((__t = ( step.padding )) == null ? '' : __t) +
-'px;">\r\n  ';
- if(tour.isTour){ ;
-__p += '<span class="hopscotch-bubble-number">' +
-((__t = ( i18n.stepNum )) == null ? '' : __t) +
-'</span>';
- } ;
-__p += '\r\n  <div class="hopscotch-bubble-content">\r\n    ';
+'px;">\r\n  <div class="hopscotch-bubble-content">\r\n    ';
  if(step.title !== ''){ ;
 __p += '<h3 class="hopscotch-title">' +
 ((__t = ( optEscape(step.title, tour.unsafe) )) == null ? '' : __t) +
@@ -2853,25 +2850,33 @@ __p += '<div class="hopscotch-content">' +
 ((__t = ( optEscape(step.content, tour.unsafe) )) == null ? '' : __t) +
 '</div>';
  } ;
-__p += '\r\n  </div>\r\n  <div class="hopscotch-actions">\r\n    ';
+__p += '\r\n  </div>\r\n  <div class="hopscotch-actions">\r\n    <div class="hopscotch-actions-stepcount">\r\n        ';
+ if(tour.isTour && tour.numSteps > 1 && !tour.hideStepCount){ ;
+__p += '<span>' +
+((__t = ( i18n.stepNum )) == null ? '' : __t) +
+' of ' +
+((__t = ( i18n.numSteps )) == null ? '' : __t) +
+'</span>';
+ } ;
+__p += '\r\n    </div>\r\n    <div class="hopscotch-actions-buttons">\r\n        ';
  if(buttons.showPrev){ ;
 __p += '<button class="hopscotch-nav-button prev hopscotch-prev">' +
 ((__t = ( i18n.prevBtn )) == null ? '' : __t) +
 '</button>';
  } ;
-__p += '\r\n    ';
+__p += '\r\n        ';
  if(buttons.showCTA){ ;
 __p += '<button class="hopscotch-nav-button next hopscotch-cta">' +
 ((__t = ( buttons.ctaLabel )) == null ? '' : __t) +
 '</button>';
  } ;
-__p += '\r\n    ';
+__p += '\r\n        ';
  if(buttons.showNext){ ;
 __p += '<button class="hopscotch-nav-button next hopscotch-next">' +
 ((__t = ( i18n.nextBtn )) == null ? '' : __t) +
 '</button>';
  } ;
-__p += '\r\n  </div>\r\n  ';
+__p += '\r\n    </div>\r\n  </div>\r\n  ';
  if(buttons.showClose){ ;
 __p += '<button class="hopscotch-bubble-close hopscotch-close">' +
 ((__t = ( i18n.closeTooltip )) == null ? '' : __t) +
