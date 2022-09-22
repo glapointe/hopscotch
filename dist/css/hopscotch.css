@@ -37,7 +37,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-.animated {
+.hopscotch-animated {
   -webkit-animation-fill-mode: both;
   -moz-animation-fill-mode: both;
   -ms-animation-fill-mode: both;
@@ -49,7 +49,7 @@
   -o-animation-duration: 1s;
   animation-duration: 1s;
 }
-@-webkit-keyframes fadeInUp {
+@-webkit-keyframes hopscotchFadeInUp {
   0% {
     opacity: 0;
     -webkit-transform: translateY(20px);
@@ -59,7 +59,7 @@
     -webkit-transform: translateY(0);
   }
 }
-@-moz-keyframes fadeInUp {
+@-moz-keyframes hopscotchFadeInUp {
   0% {
     opacity: 0;
     -moz-transform: translateY(20px);
@@ -69,7 +69,7 @@
     -moz-transform: translateY(0);
   }
 }
-@-o-keyframes fadeInUp {
+@-o-keyframes hopscotchFadeInUp {
   0% {
     opacity: 0;
     -o-transform: translateY(20px);
@@ -79,7 +79,7 @@
     -o-transform: translateY(0);
   }
 }
-@keyframes fadeInUp {
+@keyframes hopscotchFadeInUp {
   0% {
     opacity: 0;
     transform: translateY(20px);
@@ -89,13 +89,13 @@
     transform: translateY(0);
   }
 }
-.fade-in-up {
-  -webkit-animation-name: fadeInUp;
-  -moz-animation-name: fadeInUp;
-  -o-animation-name: fadeInUp;
-  animation-name: fadeInUp;
+.hopscotch-fade-in-up {
+  -webkit-animation-name: hopscotchFadeInUp;
+  -moz-animation-name: hopscotchFadeInUp;
+  -o-animation-name: hopscotchFadeInUp;
+  animation-name: hopscotchFadeInUp;
 }
-@-webkit-keyframes fadeInDown {
+@-webkit-keyframes hopscotchFadeInDown {
   0% {
     opacity: 0;
     -webkit-transform: translateY(-20px);
@@ -105,7 +105,7 @@
     -webkit-transform: translateY(0);
   }
 }
-@-moz-keyframes fadeInDown {
+@-moz-keyframes hopscotchFadeInDown {
   0% {
     opacity: 0;
     -moz-transform: translateY(-20px);
@@ -115,7 +115,7 @@
     -moz-transform: translateY(0);
   }
 }
-@-o-keyframes fadeInDown {
+@-o-keyframes hopscotchFadeInDown {
   0% {
     opacity: 0;
     -ms-transform: translateY(-20px);
@@ -125,7 +125,7 @@
     -ms-transform: translateY(0);
   }
 }
-@keyframes fadeInDown {
+@keyframes hopscotchFadeInDown {
   0% {
     opacity: 0;
     transform: translateY(-20px);
@@ -135,13 +135,13 @@
     transform: translateY(0);
   }
 }
-.fade-in-down {
-  -webkit-animation-name: fadeInDown;
-  -moz-animation-name: fadeInDown;
-  -o-animation-name: fadeInDown;
-  animation-name: fadeInDown;
+.hopscotch-fade-in-down {
+  -webkit-animation-name: hopscotchFadeInDown;
+  -moz-animation-name: hopscotchFadeInDown;
+  -o-animation-name: hopscotchFadeInDown;
+  animation-name: hopscotchFadeInDown;
 }
-@-webkit-keyframes fadeInRight {
+@-webkit-keyframes hopscotchFadeInRight {
   0% {
     opacity: 0;
     -webkit-transform: translateX(-20px);
@@ -151,7 +151,7 @@
     -webkit-transform: translateX(0);
   }
 }
-@-moz-keyframes fadeInRight {
+@-moz-keyframes hopscotchFadeInRight {
   0% {
     opacity: 0;
     -moz-transform: translateX(-20px);
@@ -161,7 +161,7 @@
     -moz-transform: translateX(0);
   }
 }
-@-o-keyframes fadeInRight {
+@-o-keyframes hopscotchFadeInRight {
   0% {
     opacity: 0;
     -o-transform: translateX(-20px);
@@ -171,7 +171,7 @@
     -o-transform: translateX(0);
   }
 }
-@keyframes fadeInRight {
+@keyframes hopscotchFadeInRight {
   0% {
     opacity: 0;
     transform: translateX(-20px);
@@ -181,13 +181,13 @@
     transform: translateX(0);
   }
 }
-.fade-in-right {
-  -webkit-animation-name: fadeInRight;
-  -moz-animation-name: fadeInRight;
-  -o-animation-name: fadeInRight;
-  animation-name: fadeInRight;
+.hopscotch-fade-in-right {
+  -webkit-animation-name: hopscotchFadeInRight;
+  -moz-animation-name: hopscotchFadeInRight;
+  -o-animation-name: hopscotchFadeInRight;
+  animation-name: hopscotchFadeInRight;
 }
-@-webkit-keyframes fadeInLeft {
+@-webkit-keyframes hopscotchFadeInLeft {
   0% {
     opacity: 0;
     -webkit-transform: translateX(20px);
@@ -197,7 +197,7 @@
     -webkit-transform: translateX(0);
   }
 }
-@-moz-keyframes fadeInLeft {
+@-moz-keyframes hopscotchFadeInLeft {
   0% {
     opacity: 0;
     -moz-transform: translateX(20px);
@@ -207,7 +207,7 @@
     -moz-transform: translateX(0);
   }
 }
-@-o-keyframes fadeInLeft {
+@-o-keyframes hopscotchFadeInLeft {
   0% {
     opacity: 0;
     -o-transform: translateX(20px);
@@ -217,7 +217,7 @@
     -o-transform: translateX(0);
   }
 }
-@keyframes fadeInLeft {
+@keyframes hopscotchFadeInLeft {
   0% {
     opacity: 0;
     transform: translateX(20px);
@@ -227,11 +227,11 @@
     transform: translateX(0);
   }
 }
-.fade-in-left {
-  -webkit-animation-name: fadeInLeft;
-  -moz-animation-name: fadeInLeft;
-  -o-animation-name: fadeInLeft;
-  animation-name: fadeInLeft;
+.hopscotch-fade-in-left {
+  -webkit-animation-name: hopscotchFadeInLeft;
+  -moz-animation-name: hopscotchFadeInLeft;
+  -o-animation-name: hopscotchFadeInLeft;
+  animation-name: hopscotchFadeInLeft;
 }
 div.hopscotch-bubble .hopscotch-nav-button {
   /* borrowed from katy styles */
@@ -320,7 +320,7 @@ div.hopscotch-bubble * {
   -moz-box-sizing: content-box;
   box-sizing: content-box;
 }
-div.hopscotch-bubble.animate {
+div.hopscotch-bubble.hopscotch-animate {
   -moz-transition-property: top, left;
   -moz-transition-duration: 1s;
   -moz-transition-timing-function: ease-in-out;

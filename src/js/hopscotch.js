@@ -810,7 +810,7 @@ HopscotchBubble.prototype = {
 
     bubbleBoundingWidth = el.offsetWidth;
     bubbleBoundingHeight = el.offsetHeight;
-    utils.removeClass(el, 'fade-in-down fade-in-up fade-in-left fade-in-right');
+    utils.removeClass(el, 'hopscotch-fade-in-down hopscotch-fade-in-up hopscotch-fade-in-left hopscotch-fade-in-right');
 
     // SET POSITION
     boundingRect = targetEl.getBoundingClientRect();
@@ -1258,7 +1258,7 @@ HopscotchBubble.prototype = {
       utils.removeClass(el, 'hide');
       utils.addClass(el, 'invisible');
     }
-    utils.removeClass(el, 'animate fade-in-up fade-in-down fade-in-right fade-in-left');
+    utils.removeClass(el, 'hopscotch-animate hopscotch-fade-in-up hopscotch-fade-in-down hopscotch-fade-in-right hopscotch-fade-in-left');
     this.isShowing = false;
     return this;
   },
@@ -1380,13 +1380,13 @@ HopscotchBubble.prototype = {
     utils.extend(opt, initOpt);
     this.opt = opt;
 
-    //Apply classes to bubble. Add "animated" for fade css animation
+    //Apply classes to bubble. Add "hopscotch-animated" for fade css animation
     const msie = window.navigator.userAgent.indexOf('MSIE ');
     const trident = window.navigator.userAgent.indexOf('Trident/');
     if (msie > 0 || trident > 0) {
         el.className = 'hopscotch-bubble';
     } else {
-        el.className = 'hopscotch-bubble animated';
+        el.className = 'hopscotch-bubble hopscotch-animated';
     }
     if (!opt.isTourBubble) {
       utils.addClass(el, 'hopscotch-callout no-number');
