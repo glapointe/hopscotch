@@ -6,6 +6,7 @@ div.hopscotch-bubble {
   font-size: 13px;
   position: absolute;
   z-index: @bubbleZindex;
+  display: block !important;
   .box-sizing(content-box);
 
   * {
@@ -45,7 +46,7 @@ div.hopscotch-bubble {
   &.hide,
   .hide,
   .hide-all {
-    display: none;
+    display: none !important;
   }
 
   h3 {

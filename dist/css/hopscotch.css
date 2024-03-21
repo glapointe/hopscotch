@@ -303,6 +303,7 @@ div.hopscotch-bubble {
   font-size: 13px;
   position: absolute;
   z-index: 9999999;
+  display: block !important;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
@@ -343,7 +344,7 @@ div.hopscotch-bubble.invisible {
 div.hopscotch-bubble.hide,
 div.hopscotch-bubble .hide,
 div.hopscotch-bubble .hide-all {
-  display: none;
+  display: none !important;
 }
 div.hopscotch-bubble h3 {
   color: #333;
