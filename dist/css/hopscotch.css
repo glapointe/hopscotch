@@ -376,6 +376,8 @@ div.hopscotch-bubble .hopscotch-content img {
 }
 div.hopscotch-bubble .hopscotch-bubble-content {
   margin: 0 0 0 0;
+  max-height: calc(100vh - 150px);
+  overflow: auto;
 }
 div.hopscotch-bubble.no-number .hopscotch-bubble-content {
   margin: 0;
