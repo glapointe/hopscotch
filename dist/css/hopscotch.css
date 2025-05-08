@@ -247,6 +247,7 @@ div.hopscotch-bubble .hopscotch-nav-button {
   height: 22px;
   line-height: 20px;
   font-size: 12px;
+  font-family: "Poppins", 'Roboto', sans-serif, Helvetica, Arial;
   *zoom: 1;
   white-space: nowrap;
   display: -moz-inline-stack;
@@ -299,7 +300,7 @@ div.hopscotch-bubble {
   border: 0px solid transparent;
   /* default */
   color: #333;
-  font-family: 'Roboto', sans-serif, Helvetica, Arial;
+  font-family: "Poppins", 'Roboto', sans-serif, Helvetica, Arial;
   font-size: 13px;
   position: absolute;
   z-index: 9999999;
@@ -348,10 +349,10 @@ div.hopscotch-bubble .hide-all {
 }
 div.hopscotch-bubble h3 {
   color: #333;
-  font-family: 'Roboto', sans-serif, Helvetica, Arial;
+  font-family: "Poppins", 'Roboto', sans-serif, Helvetica, Arial;
   font-size: 16px;
   font-weight: bold;
-  line-height: 19px;
+  line-height: 20px;
   margin: -1px 15px 0 0;
   padding: 0;
 }
@@ -363,7 +364,7 @@ div.hopscotch-bubble .hopscotch-bubble-container {
   /* to fix text flickering */
 }
 div.hopscotch-bubble .hopscotch-content {
-  font-family: 'Roboto', sans-serif, Helvetica, Arial;
+  font-family: "Poppins", 'Roboto', sans-serif, Helvetica, Arial;
   font-weight: normal;
   font-size: 14px;
   color: #5e5e5e;
@@ -502,6 +503,7 @@ div.hopscotch-bubble .hopscotch-actions {
   margin: 10px 0 0;
   display: flex;
   justify-content: space-between;
+  font-family: "Poppins", "Segoe UI Semilight", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
 }
 div.hopscotch-bubble .hopscotch-actions .hopscotch-actions-stepcount {
   opacity: .65;
